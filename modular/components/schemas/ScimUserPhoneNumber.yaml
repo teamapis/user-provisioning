@@ -1,0 +1,13 @@
+type: object
+title: Scim user phone number
+properties:
+  value:
+    type: string
+    description: Phone number.
+  type:
+    type: string
+    description: Type of phone number, for example `work` or `personal`
+  primary:
+    type: boolean
+    description: Boolean value indicating whether phone number is primary.
+description: SCIM user phone number

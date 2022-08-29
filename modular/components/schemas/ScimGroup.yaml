@@ -1,0 +1,40 @@
+type: object
+title: Scim group
+properties:
+  schemas:
+    type: array
+    description: >
+      SCIM schemas that define the attributes present in the current JSON
+      structure. This field  is required during user creation or modification.
+    readOnly: true
+    uniqueItems: true
+    items:
+      type: string
+  id:
+    type: string
+    description: >
+      Unique identifier defined by Atlassian SCIM Service. This field is
+      read-only and case-sensitive.  It is ignored if specified in the payload
+      during user creation or modification.
+    readOnly: true
+  externalId:
+    type: string
+    description: >-
+      Identifier defined by provisioning client. CaseExact. Uniqueness is
+      controlled by client. 
+    readOnly: true
+  displayName:
+    type: string
+    description: Group display name. This field is immutable, required, and read-only.
+  members:
+    type: array
+    description: Group members
+    readOnly: true
+    items:
+      $ref: ./ScimGroupMember.yaml
+  meta:
+    description: Group metadata information.
+    readOnly: true
+    allOf:
+      - $ref: ./ScimMetadata.yaml
+description: SCIM group

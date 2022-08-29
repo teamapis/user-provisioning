@@ -1,0 +1,10 @@
+type: object
+properties:
+  error:
+    type: string
+    description: Human readable error message
+    readOnly: true
+  traceId:
+    type: string
+    description: Trace ID that can be used to find log messages
+    readOnly: true

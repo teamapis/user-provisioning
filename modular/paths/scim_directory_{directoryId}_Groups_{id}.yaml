@@ -1,0 +1,436 @@
+get:
+  tags:
+    - Groups
+  summary: Get a group by ID
+  description: Get a group from a directory by group ID.
+  operationId: get
+  parameters:
+    - name: directoryId
+      in: path
+      description: Directory Id
+      required: true
+      schema:
+        type: string
+    - name: id
+      in: path
+      description: Group Id
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Group has been returned successfully.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ScimGroup.yaml
+        application/scim+json:
+          schema:
+            $ref: ../components/schemas/ScimGroup.yaml
+    '401':
+      description: Missing authorization header.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/Failure.yaml
+        application/scim+json:
+          schema:
+            $ref: ../components/schemas/Failure.yaml
+    '403':
+      description: You are not authorized to call the API.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/Failure.yaml
+        application/scim+json:
+          schema:
+            $ref: ../components/schemas/Failure.yaml
+    '404':
+      description: The directory or group does not exist.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+        application/scim+json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+    '500':
+      description: Internal error. You can retry calls.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+        application/scim+json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+    '503':
+      description: Service unavailable. You can retry calls.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+        application/scim+json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+put:
+  tags:
+    - Groups
+  summary: Update a group by ID
+  description: Update a group in a directory by group ID.
+  operationId: put
+  parameters:
+    - name: directoryId
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: id
+      in: path
+      description: Group Id
+      required: true
+      schema:
+        type: string
+  requestBody:
+    $ref: ../components/requestBodies/ScimGroup.yaml
+  responses:
+    '200':
+      description: Group has been updated successfully.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ScimGroup.yaml
+        application/scim+json:
+          schema:
+            $ref: ../components/schemas/ScimGroup.yaml
+    '400':
+      description: Bad request, the users referenced do not exist.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/BadRequestException.yaml
+        application/scim+json:
+          schema:
+            $ref: ../components/schemas/BadRequestException.yaml
+    '401':
+      description: Missing authorization header.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/Failure.yaml
+        application/scim+json:
+          schema:
+            $ref: ../components/schemas/Failure.yaml
+    '403':
+      description: You are not authorized to call the API.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/Failure.yaml
+        application/scim+json:
+          schema:
+            $ref: ../components/schemas/Failure.yaml
+    '404':
+      description: The directory or group does not exist.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+        application/scim+json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+    '500':
+      description: Internal error. You can retry calls.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+        application/scim+json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+    '503':
+      description: Service unavailable. You can retry calls.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+        application/scim+json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+delete:
+  tags:
+    - Groups
+  summary: Delete a group by ID
+  description: >
+    Delete a group from a directory. An attempt to delete a non-existent group
+    fails with a 404 (Resource Not found) error.
+  operationId: DeleteAGroup
+  parameters:
+    - name: directoryId
+      in: path
+      description: Directory Id
+      required: true
+      schema:
+        type: string
+    - name: id
+      in: path
+      description: Group Id
+      required: true
+      schema:
+        type: string
+  responses:
+    '204':
+      description: Group has been deleted successfully.
+    '400':
+      description: Caller has provided an invalid request.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+        application/scim+json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+    '401':
+      description: Missing authorization header.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/Failure.yaml
+        application/scim+json:
+          schema:
+            $ref: ../components/schemas/Failure.yaml
+    '403':
+      description: You are not authorized to call API.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/Failure.yaml
+        application/scim+json:
+          schema:
+            $ref: ../components/schemas/Failure.yaml
+    '404':
+      description: Group does not exist.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+        application/scim+json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+    '500':
+      description: Internal error. You can retry calls.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+        application/scim+json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+    '503':
+      description: Service unavailable. You can retry calls.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+        application/scim+json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+patch:
+  tags:
+    - Groups
+  summary: Update a group by ID (PATCH)
+  description: >-
+    Update a group's information in a directory by `groupId` via `PATCH`.
+
+    You can use this API to manage group membership.
+
+
+    **Note:** Renaming groups after they've synced to your Atlassian
+    organization isn't supported in this 
+
+    release of the User Provisioning API. To rename a group, create a new group
+    with the desired 
+
+    name, update membership, and then delete the old group.
+
+
+    #### Example
+
+
+    Some HTTP headers omitted and JSON payloads formatted for readability.
+
+
+    ```
+
+    # Request
+
+    PATCH
+    /scim/directory/2fb21891-7bee-4c2d-a61a-ade3834c8b2b/Groups/50202593-bc47-45df-8fa0-3f63343aa3c1
+    HTTP/1.1
+
+    Accept: application/scim+json
+
+    Accept-Charset: utf-8
+
+    Content-Type: application/scim+json; charset=utf-8
+
+    Authorization: Bearer 0j6lDgrjU7HmGagocgLe
+
+    Host: api.atlassian.com
+
+
+    {
+       "schemas":[
+          "urn:ietf:params:scim:api:messages:2.0:PatchOp"
+       ],
+       "Operations":[
+          {
+             "op":"add",
+             "path":"members",
+             "value":[
+                {
+                   "value":"c6993c94-dbda-40f1-b6f0-18c855522ade",
+                   "display":"dave.meyer@demotime.authteam.com"
+                },
+                {
+                   "value":"f0ae48f7-1466-445e-85ea-e83ef754aefd",
+                   "display":"lingbo.lu@demotime.authteam.com"
+                },
+                {
+                   "value":"432d6f10-2e28-454e-be99-0f8c732a046f",
+                   "display":"joanna@demotime.authteam.com"
+                }
+             ]
+          }
+       ]
+    }
+
+
+    # Response
+
+    HTTP/1.1 200
+
+    Content-Type: application/scim+json
+
+
+    {
+       "schemas":[
+          "urn:ietf:params:scim:schemas:core:2.0:Group"
+       ],
+       "id":"50202593-bc47-45df-8fa0-3f63343aa3c1",
+       "displayName":"demotime-confluence-users",
+       "members":[
+          {
+             "type":"User",
+             "value":"f0ae48f7-1466-445e-85ea-e83ef754aefd",
+             "display":"lingbo.lu@demotime.authteam.com",
+             "$ref":"https://api.atlassian.com/scim/directory/2fb21891-7bee-4c2d-a61a-ade3834c8b2b/Users/f0ae48f7-1466-445e-85ea-e83ef754aefd"
+          },
+          {
+             "type":"User",
+             "value":"c6993c94-dbda-40f1-b6f0-18c855522ade",
+             "display":"dave.meyer@demotime.authteam.com",
+             "$ref":"https://api.atlassian.com/scim/directory/2fb21891-7bee-4c2d-a61a-ade3834c8b2b/Users/c6993c94-dbda-40f1-b6f0-18c855522ade"
+          },
+          {
+             "type":"User",
+             "value":"432d6f10-2e28-454e-be99-0f8c732a046f",
+             "display":"joanna@demotime.authteam.com",
+             "$ref":"https://api.atlassian.com/scim/directory/2fb21891-7bee-4c2d-a61a-ade3834c8b2b/Users/432d6f10-2e28-454e-be99-0f8c732a046f"
+          }
+       ],
+       "meta":{
+          "resourceType":"Group",
+          "location":"https://api.atlassian.com/scim/directory/2fb21891-7bee-4c2d-a61a-ade3834c8b2b/Groups/50202593-bc47-45df-8fa0-3f63343aa3c1",
+          "lastModified":"2018-09-26T17:49:09.420654Z",
+          "created":"2018-09-26T17:41:35.49073Z"
+       }
+    }
+
+    ```
+  operationId: patch
+  parameters:
+    - name: directoryId
+      in: path
+      description: Directory ID
+      required: true
+      schema:
+        type: string
+    - name: id
+      in: path
+      description: Group ID
+      required: true
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/RequestPayloadToPatch.yaml
+      application/scim+json:
+        schema:
+          $ref: ../components/schemas/RequestPayloadToPatch.yaml
+    required: true
+  responses:
+    '200':
+      description: Group has been updated successfully.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ScimGroup.yaml
+        application/scim+json:
+          schema:
+            $ref: ../components/schemas/ScimGroup.yaml
+    '400':
+      description: Invalid payload.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+        application/scim+json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+    '401':
+      description: Missing authorization header.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/Failure.yaml
+        application/scim+json:
+          schema:
+            $ref: ../components/schemas/Failure.yaml
+    '403':
+      description: You are not authorized to call the API.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/Failure.yaml
+        application/scim+json:
+          schema:
+            $ref: ../components/schemas/Failure.yaml
+    '404':
+      description: The directory, group, or user does not exist.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+        application/scim+json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+    '500':
+      description: Internal error. You can retry calls.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+        application/scim+json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+    '503':
+      description: Service unavailable. You can retry calls.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+        application/scim+json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml

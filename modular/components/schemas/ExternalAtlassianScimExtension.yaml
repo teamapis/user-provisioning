@@ -1,0 +1,6 @@
+type: object
+title: External atlassion Scim extensioin
+properties:
+  atlassianAccountId:
+    type: string
+    readOnly: true

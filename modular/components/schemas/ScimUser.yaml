@@ -1,0 +1,95 @@
+type: object
+title: Scim user
+properties:
+  schemas:
+    type: array
+    description: >
+      SCIM schemas that define the attributes present in the current JSON
+      structure This field is required during user creation or modification.
+    readOnly: true
+    uniqueItems: true
+    items:
+      type: string
+  userName:
+    type: string
+    description: >
+      Unique identifier defined by the provisioning client. Atlassian SCIM
+      service will verify  the value and guarantee its uniqueness. This field is
+      required during  user creation or modification.
+  emails:
+    type: array
+    description: >
+      Email addresses for the User. This field is required during user creation
+      or modification.  One value must be marked as primary.
+    uniqueItems: true
+    items:
+      $ref: ./ScimUserEmail.yaml
+  id:
+    type: string
+    description: >
+      Unique identifier defined by Atlassian SCIM Service. CaseExact. This field
+      is read-only and is be ignored during user creation or modification if
+      specified in the payload.
+    readOnly: true
+  externalId:
+    type: string
+    description: >
+      Identifier defined by provisioning client. This field is case-sensitive.
+      Uniqueness is  controlled by client. 
+    readOnly: true
+  name:
+    description: The components of the user's name.
+    allOf:
+      - $ref: ./ScimUserName.yaml
+  displayName:
+    type: string
+    description: User display name.
+  nickName:
+    type: string
+    description: User nickname.
+  title:
+    type: string
+    description: User title.
+  preferredLanguage:
+    type: string
+    description: User preferred language.
+  department:
+    type: string
+    description: User department.
+  organization:
+    type: string
+    description: User organization.
+  timezone:
+    type: string
+    description: User timezone. e.g. America/Los_Angeles .
+  phoneNumbers:
+    type: array
+    description: Phone numbers for the user.
+    uniqueItems: true
+    items:
+      $ref: ./ScimUserPhoneNumber.yaml
+  meta:
+    description: User metadata information.
+    readOnly: true
+    allOf:
+      - $ref: ./ScimMetadata.yaml
+  groups:
+    type: array
+    description: SCIM groups user belongs to.
+    readOnly: true
+    items:
+      $ref: ./ScimGroupForUser.yaml
+  urn:ietf:params:scim:schemas:extension:enterprise:2.0:User:
+    description: Enterprise user information
+    readOnly: true
+    allOf:
+      - $ref: ./EnterpriseUserExtension.yaml
+  urn:scim:schemas:extension:atlassian-external:1.0:
+    description: Atlassian specific SCIM Extension
+    readOnly: true
+    allOf:
+      - $ref: ./ExternalAtlassianScimExtension.yaml
+  active:
+    type: boolean
+    description: A Boolean value indicating the user's administrative status.
+description: SCIM user

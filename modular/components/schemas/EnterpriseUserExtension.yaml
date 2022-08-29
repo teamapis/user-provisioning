@@ -1,0 +1,12 @@
+type: object
+title: Enterprise user extension
+properties:
+  organization:
+    type: string
+    description: Organization the user belongs to.
+    readOnly: true
+  department:
+    type: string
+    description: Department the user belongs to.
+    readOnly: true
+description: SCIM enterprise user extension

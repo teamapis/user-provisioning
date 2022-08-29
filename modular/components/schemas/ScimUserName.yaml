@@ -1,0 +1,24 @@
+type: object
+title: Scim user name
+properties:
+  formatted:
+    type: string
+    description: >-
+      The full name, including all middle names, titles, and suffixes as
+      appropriate, formatted for display.
+  familyName:
+    type: string
+    description: The family name of the User.
+  givenName:
+    type: string
+    description: The given name of the User.
+  middleName:
+    type: string
+    description: The middle name(s) of the User.
+  honorificPrefix:
+    type: string
+    description: The honorific prefix(es) of the User, or title in most Western languages.
+  honorificSuffix:
+    type: string
+    description: The honorific suffix(es) of the User, or suffix in most Western languages.
+description: SCIM user name

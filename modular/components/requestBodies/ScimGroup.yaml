@@ -1,0 +1,8 @@
+content:
+  application/json:
+    schema:
+      $ref: ../schemas/ScimGroup.yaml
+  application/scim+json:
+    schema:
+      $ref: ../schemas/ScimGroup.yaml
+required: true

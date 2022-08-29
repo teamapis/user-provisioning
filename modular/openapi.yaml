@@ -1,0 +1,205 @@
+openapi: 3.0.0
+info:
+  title: User provisioning
+  version: '1.0'
+  description: Rest APIs
+x-atlassian-narrative:
+  documents:
+    - title: About the user provisioning REST API
+      anchor: about
+      body: >-
+        Use this REST API to integrate your organization with an identity
+        provider.
+    - title: Authentication and authorization
+      anchor: auth
+      body: >-
+        To manage users and groups with the user provisioning REST API, you need
+        an API key separate from
+
+        your Cloud admin API key. This key gives full administrative access to
+        your organization's directory, 
+
+        allowing the API client to create and update user attributes and change
+        user group membership. 
+
+
+        See [Configure user
+        provisioning](https://confluence.atlassian.com/x/_w2eOQ).
+
+
+        Once you have your API key, you can provide it as a bearer token 
+
+        in the `Authorization` part of your HTTPS header.
+
+
+        If you need to "rotate" or regenerate an API key, use the following
+        steps:
+
+
+        1. Go to [admin.atlassian.com](https://admin.atlassian.com/) and select
+        your organization.
+
+        2. Select **Directory**, then select **User provisioning**. If you have
+        the [improved user management
+        experience](https://confluence.atlassian.com/x/_w2eOQ), select Settings,
+        then select **User provisioning**.
+
+        3. Select the **Directory** tab, then select the **Regenerate API key**
+        button.
+
+        4. Select **Regenerate key**.
+
+        5. Copy the organization ID and the API key to a safe place. Once you
+        close the API key information screen, we won't show you this information
+        again.
+
+        6. Select **Done**.
+    - title: Version and URI
+      anchor: uri
+      body: >-
+        This documentation is for version 1 of the user provisioning REST API.
+        The URIs for resources 
+
+        have the following structure:
+
+
+        ```
+
+        https://api.atlassian.com/admin/v1/scim/<resource-name>
+
+        ```
+    - title: Pagination
+      anchor: Pagination
+      body: >-
+        The user provisioning REST API uses pagination to conserve server
+        resources and
+
+        limit response size. If there are more results available after the
+        current page, 
+
+        a link to the next page of results is included in the JSON. You can use
+        the `cursor` 
+
+        parameter to set a specific starting point for the results.
+    - title: Status codes
+      anchor: status codes
+      body: >-
+        We follow the standard HTTP status code definition.
+
+        See [W3C Status Code
+        Definitions](https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html) 
+
+        for the detailed code definitions.
+    - title: Limitations
+      anchor: limitations
+      body: >-
+        ### User limitations
+
+
+        * A user account only can only be created if it has an email address on
+        a domain you 
+          have verified.
+        * Deleting a user account via the user provisioning API is not
+        supported. The DELETE operation
+          deactivates the user account, which is the same as setting the `active` flag to `false`.
+        * There is a 70,000 user limit per directory. This limit is enforced for
+        compatibility with products
+          that have an upper bound for total supported users. Also, you can only sync up to 20,000 users for each group.
+
+        ### Group limitations
+
+
+        **Note:** If you have the [improved user management
+        experience](https://confluence.atlassian.com/x/_w2eOQ), any references
+        in the documentation below to “your site” or “your organization’s sites”
+        are now “your organization”.
+
+
+        * When you sync a group that has the same name as an existing group in
+        the organization, the 
+          group sync fails with a 409 (conflict) error.
+        * If the API creates a group in the organization's directory that has
+        the same name of a site's 
+          group (e.g. confluence-users), the API successfully creates the group in the directory but 
+          fails to propagate the group to the organization's sites. You'll see this event in the audit log.
+        * Changing group names isn't supported. Renaming groups after they've
+        synced to your Atlassian 
+          organization isn't supported in this release of User Provisioning API. This is because some 
+          parts of the products rely on group names and changing the group name would result in users 
+          not being able to interact with the products correctly. To rename a group, create a new group 
+          with the desired name, update membership, and then delete the old group.
+
+        ### Authorization limitations
+
+
+        * You can only view and store the Access Token (API key) during
+        directory creation. If you
+          lose your token, you can regenerate a new one. See 
+          [Authentication and authorization](/cloud/admin/user-provisioning/authorization/)
+security:
+  - clientCredentialsAuth: []
+tags:
+  - name: Users
+    description: >
+      The following user attributes can be updated through the user provisioning
+      API.
+
+
+      | User profile field | SCIM field        | Attribute type | Required |
+
+      |--------------------|-------------------|----------------|----------|
+
+      | Display name       | displayName       | Singular       | false    |
+
+      | Email address      | emails            | Multi-Valued   | true     |
+
+      | Organization       | organization      | Singular       | false    |
+
+      | Job title          | title             | Singular       | false    |
+
+      | Timezone           | timezone          | Singular       | false    |
+
+      | Department         | department        | Singular       | false    |
+
+      | Preferred language | preferredLanguage | Singular       | false    |
+  - name: Groups
+  - name: Schemas
+  - name: Service Provider Configuration
+paths:
+  /scim/directory/{directoryId}/Groups/{id}:
+    $ref: paths/scim_directory_{directoryId}_Groups_{id}.yaml
+  /scim/directory/{directoryId}/Groups:
+    $ref: paths/scim_directory_{directoryId}_Groups.yaml
+  /scim/directory/{directoryId}/Schemas:
+    $ref: paths/scim_directory_{directoryId}_Schemas.yaml
+  /scim/directory/{directoryId}/ResourceTypes:
+    $ref: paths/scim_directory_{directoryId}_ResourceTypes.yaml
+  /scim/directory/{directoryId}/ResourceTypes/User:
+    $ref: paths/scim_directory_{directoryId}_ResourceTypes_User.yaml
+  /scim/directory/{directoryId}/ResourceTypes/Group:
+    $ref: paths/scim_directory_{directoryId}_ResourceTypes_Group.yaml
+  /scim/directory/{directoryId}/Schemas/urn:ietf:params:scim:schemas:core:2.0:User:
+    $ref: >-
+      paths/scim_directory_{directoryId}_Schemas_urn:ietf:params:scim:schemas:core:2.0:User.yaml
+  /scim/directory/{directoryId}/Schemas/urn:ietf:params:scim:schemas:core:2.0:Group:
+    $ref: >-
+      paths/scim_directory_{directoryId}_Schemas_urn:ietf:params:scim:schemas:core:2.0:Group.yaml
+  /scim/directory/{directoryId}/Schemas/urn:ietf:params:scim:schemas:extension:enterprise:2.0:User:
+    $ref: >-
+      paths/scim_directory_{directoryId}_Schemas_urn:ietf:params:scim:schemas:extension:enterprise:2.0:User.yaml
+  /scim/directory/{directoryId}/ServiceProviderConfig:
+    $ref: paths/scim_directory_{directoryId}_ServiceProviderConfig.yaml
+  /scim/directory/{directoryId}/Users/{userId}:
+    $ref: paths/scim_directory_{directoryId}_Users_{userId}.yaml
+  /scim/directory/{directoryId}/Users:
+    $ref: paths/scim_directory_{directoryId}_Users.yaml
+servers:
+  - url: https://api.atlassian.com/
+components:
+  securitySchemes:
+    clientCredentialsAuth:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api.atlassian.com/oauth/token
+          scopes: {}

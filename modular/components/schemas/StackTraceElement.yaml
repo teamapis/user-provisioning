@@ -1,0 +1,14 @@
+type: object
+title: Stack trace element
+properties:
+  methodName:
+    type: string
+  fileName:
+    type: string
+  lineNumber:
+    type: integer
+    format: int32
+  className:
+    type: string
+  nativeMethod:
+    type: boolean

@@ -1,0 +1,15 @@
+type: object
+title: Scim group for user
+properties:
+  type:
+    type: string
+  value:
+    type: string
+    readOnly: true
+  display:
+    type: string
+    readOnly: true
+  $ref:
+    type: string
+    readOnly: true
+description: SCIM group for user

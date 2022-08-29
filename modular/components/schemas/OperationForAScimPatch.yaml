@@ -1,0 +1,10 @@
+type: object
+title: Operation for a Scim patch.
+properties:
+  op:
+    type: string
+  path:
+    type: string
+  value:
+    $ref: ./JsonNode.yaml
+description: Operation for a SCIM patch

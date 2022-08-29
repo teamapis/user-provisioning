@@ -1,0 +1,15 @@
+type: object
+title: Request payload to patch.
+properties:
+  schemas:
+    type: array
+    description: SCIM patch schemas.
+    uniqueItems: true
+    items:
+      type: string
+  operations:
+    type: array
+    description: SCIM patch operations.
+    items:
+      $ref: ./OperationForAScimPatch.yaml
+description: Request object to patch a scim user

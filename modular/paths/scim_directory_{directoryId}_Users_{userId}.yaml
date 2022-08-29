@@ -1,0 +1,387 @@
+get:
+  tags:
+    - Users
+  summary: Get a user by ID
+  description: |
+    Get a user from a directory by `userId`. 
+  operationId: getAUserFromActiveDirectory
+  parameters:
+    - name: directoryId
+      in: path
+      description: Directory Id
+      required: true
+      schema:
+        type: string
+    - name: userId
+      in: path
+      description: The user ID
+      required: true
+      schema:
+        type: string
+    - name: attributes
+      in: query
+      description: >
+        Resource attributes to be included in response. Mutually exclusive with
+        `excludedAttributes`.  Example: `userName,emails.value`
+      required: false
+      x-showInExample: true
+      schema:
+        type: string
+    - name: excludedAttributes
+      in: query
+      description: >
+        Resource attributes to be excluded from response. Mutually exclusive
+        with `attributes`.  Example: `timezone,emails.type,department`
+      required: false
+      schema:
+        type: string
+  responses:
+    '200':
+      description: User has been returned successfully.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ScimUser.yaml
+        application/scim+json:
+          schema:
+            $ref: ../components/schemas/ScimUser.yaml
+    '401':
+      description: Missing authorization header.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/Failure.yaml
+        application/scim+json:
+          schema:
+            $ref: ../components/schemas/Failure.yaml
+    '403':
+      description: You are not authorized to call the API.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/Failure.yaml
+        application/scim+json:
+          schema:
+            $ref: ../components/schemas/Failure.yaml
+    '404':
+      description: Directory or user does not exist.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+        application/scim+json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+    '500':
+      description: Internal error. You can retry calls.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+        application/scim+json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+    '503':
+      description: Service unavailable. You can retry calls.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+        application/scim+json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+put:
+  tags:
+    - Users
+  summary: Update user via user attributes
+  description: >
+    Updates a user's information in a directory by `userId` via user attributes.
+    User information  is replaced attribute-by-attribute, with the exception of
+    immutable and read-only  attributes. Existing values of unspecified
+    attributes are cleaned.
+  operationId: updateUserInformationInAnActiveDirectory
+  parameters:
+    - name: directoryId
+      in: path
+      description: Directory Id
+      required: true
+      schema:
+        type: string
+    - name: userId
+      in: path
+      description: User ID
+      required: true
+      schema:
+        type: string
+    - name: attributes
+      in: query
+      description: >
+        Resource attributes to be included in the response. Mutually exclusive
+        with  `excludedAttributes`. Example: `userName,emails.value`
+      required: false
+      schema:
+        type: string
+    - name: excludedAttributes
+      in: query
+      description: >
+        Resource attributes to be excluded in the response. Mutually exclusive
+        with `attributes`.  Example: `timezone,emails.type,department`
+      required: false
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/ScimUser.yaml
+      application/scim+json:
+        schema:
+          $ref: ../components/schemas/ScimUser.yaml
+    description: User information. The `userName` is required.
+    required: true
+  responses:
+    '200':
+      description: User has been updated successfully.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ScimUser.yaml
+        application/scim+json:
+          schema:
+            $ref: ../components/schemas/ScimUser.yaml
+    '400':
+      description: Invalid payload for update request.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+        application/scim+json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+    '401':
+      description: Missing authorization header.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/Failure.yaml
+        application/scim+json:
+          schema:
+            $ref: ../components/schemas/Failure.yaml
+    '403':
+      description: You are not authorized to call the API.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/Failure.yaml
+        application/scim+json:
+          schema:
+            $ref: ../components/schemas/Failure.yaml
+    '404':
+      description: Either directory or user does not exist.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+        application/scim+json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+    '500':
+      description: Internal error. You can retry calls.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+        application/scim+json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+    '503':
+      description: Service unavailable. You can retry calls.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+        application/scim+json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+delete:
+  tags:
+    - Users
+  summary: Deactivate a user
+  description: >
+    Deactivate a user by `userId`. The user is not available for future requests
+    until  activated again. Any future operation for the deactivated user
+    returns the 404  (resource not found) error.
+  operationId: deleteAUserFromAnActiveDirectory
+  parameters:
+    - name: directoryId
+      in: path
+      description: Directory Id
+      required: true
+      schema:
+        type: string
+    - name: userId
+      in: path
+      description: User Id
+      required: true
+      schema:
+        type: string
+  responses:
+    '204':
+      description: User has been deactivated.
+    '401':
+      description: Missing authorization header.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/Failure.yaml
+        application/scim+json:
+          schema:
+            $ref: ../components/schemas/Failure.yaml
+    '403':
+      description: You are not authorized to call the API.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/Failure.yaml
+        application/scim+json:
+          schema:
+            $ref: ../components/schemas/Failure.yaml
+    '404':
+      description: Either directory or user does not exist.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+        application/scim+json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+    '500':
+      description: Internal error. You can retry calls.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+        application/scim+json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+    '503':
+      description: Service unavailable. You can retry calls.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+        application/scim+json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+patch:
+  tags:
+    - Users
+  summary: Update user by ID (PATCH)
+  description: >
+    This operation updates a user's information in a directory by `userId` via
+    `PATCH`. Refer to  `GET /ServiceProviderConfig` for details on the supported
+    operations.
+  operationId: patchUserInformationInAnActiveDirectory
+  parameters:
+    - name: directoryId
+      in: path
+      description: Directory Id
+      required: true
+      schema:
+        type: string
+    - name: userId
+      in: path
+      description: User Id
+      required: true
+      schema:
+        type: string
+    - name: attributes
+      in: query
+      description: >
+        Resource attributes to be included in the response. Mutually exclusive
+        with  `excludedAttributes`. Example: `userName,emails.value`
+      required: false
+      schema:
+        type: string
+    - name: excludedAttributes
+      in: query
+      description: >
+        Resource attributes to be included in the response. Mutually exclusive
+        with `attributes`.  Example: `timezone,emails.type,department`
+      required: false
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/RequestPayloadToPatch.yaml
+      application/scim+json:
+        schema:
+          $ref: ../components/schemas/RequestPayloadToPatch.yaml
+    description: Patch op information
+    required: true
+  responses:
+    '200':
+      description: User has been updated successfully.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ScimUser.yaml
+        application/scim+json:
+          schema:
+            $ref: ../components/schemas/ScimUser.yaml
+    '400':
+      description: Invalid payload for patch operation.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+        application/scim+json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+    '401':
+      description: Missing authorization header.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/Failure.yaml
+        application/scim+json:
+          schema:
+            $ref: ../components/schemas/Failure.yaml
+    '403':
+      description: You are not authorized to call the API.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/Failure.yaml
+        application/scim+json:
+          schema:
+            $ref: ../components/schemas/Failure.yaml
+    '404':
+      description: Either directory or user does not exist.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+        application/scim+json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+    '500':
+      description: Internal error. You can retry calls.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+        application/scim+json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+    '503':
+      description: Service unavailable. You can retry calls.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+        application/scim+json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml

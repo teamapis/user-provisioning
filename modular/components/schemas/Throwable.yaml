@@ -1,0 +1,16 @@
+type: object
+properties:
+  cause:
+    $ref: ./Throwable.yaml
+  stackTrace:
+    type: array
+    items:
+      $ref: ./StackTraceElement.yaml
+  message:
+    type: string
+  localizedMessage:
+    type: string
+  suppressed:
+    type: array
+    items:
+      $ref: ./Throwable.yaml

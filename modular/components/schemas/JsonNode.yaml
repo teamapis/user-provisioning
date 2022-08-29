@@ -1,0 +1,55 @@
+type: object
+title: Json node
+properties:
+  array:
+    type: boolean
+  'null':
+    type: boolean
+  valueNode:
+    type: boolean
+  containerNode:
+    type: boolean
+  missingNode:
+    type: boolean
+  object:
+    type: boolean
+  nodeType:
+    type: string
+    enum:
+      - ARRAY
+      - BINARY
+      - BOOLEAN
+      - MISSING
+      - 'NULL'
+      - NUMBER
+      - OBJECT
+      - POJO
+      - STRING
+  pojo:
+    type: boolean
+  number:
+    type: boolean
+  integralNumber:
+    type: boolean
+  floatingPointNumber:
+    type: boolean
+  short:
+    type: boolean
+  int:
+    type: boolean
+  long:
+    type: boolean
+  double:
+    type: boolean
+  bigDecimal:
+    type: boolean
+  bigInteger:
+    type: boolean
+  textual:
+    type: boolean
+  boolean:
+    type: boolean
+  binary:
+    type: boolean
+  float:
+    type: boolean

@@ -1,0 +1,237 @@
+get:
+  tags:
+    - Users
+  summary: Get users
+  description: >
+    Get users from the specified directory. Filtering is supported with a single
+    exact match  (`eq`) against the `userName` and `externalId` attributes.
+    Pagination is supported. Sorting  is not supported.
+  operationId: getUsersFromAnActiveDirectory
+  parameters:
+    - name: directoryId
+      in: path
+      description: Directory Id
+      required: true
+      schema:
+        type: string
+    - name: attributes
+      in: query
+      description: >
+        Resource attributes to be included in response. Mutually exclusive with
+        `excludedAttributes`.  Example: `userName,emails.value`
+      required: false
+      schema:
+        type: string
+    - name: excludedAttributes
+      in: query
+      description: >
+        Resource attributes to be excluded from response. Mutually exclusive
+        with `attributes`.  Example: `timezone,emails.type,department`
+      required: false
+      schema:
+        type: string
+    - name: filter
+      in: query
+      description: >
+        Filter for `userName` or `externalId`. Example: `userName eq
+        "Atlassian"`
+      required: false
+      schema:
+        type: string
+    - name: startIndex
+      in: query
+      description: A 1-based index of the first query result.
+      required: false
+      schema:
+        type: integer
+        format: int32
+        default: 1
+    - name: count
+      in: query
+      description: Desired maximum number of query results in the list response page.
+      required: false
+      schema:
+        type: integer
+        format: int32
+  responses:
+    '200':
+      description: Users have been returned successfully.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ScimUserListResponse.yaml
+        application/scim+json:
+          schema:
+            $ref: ../components/schemas/ScimUserListResponse.yaml
+    '400':
+      description: Caller has provided an invalid filter
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+        application/scim+json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+    '401':
+      description: Missing authorization header.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/Failure.yaml
+        application/scim+json:
+          schema:
+            $ref: ../components/schemas/Failure.yaml
+    '403':
+      description: You are not authorized to call the API.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/Failure.yaml
+        application/scim+json:
+          schema:
+            $ref: ../components/schemas/Failure.yaml
+    '404':
+      description: Directory does not exist.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+        application/scim+json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+    '500':
+      description: Internal error. You can retry calls.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+        application/scim+json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+    '503':
+      description: Service unavailable. You can retry calls.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+        application/scim+json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+post:
+  tags:
+    - Users
+  summary: Create a user
+  description: >-
+    Create a user in a directory. An attempt to create an existing user fails
+    with a 409 (Conflict) error. A user account can only be created if it has an
+    email address on a verified domain. If a managed Atlassian account already
+    exists on the Atlassian platform for the specified email address, the user
+    in your identity provider is linked to the user in your Atlassian
+    organization.
+  operationId: createAUserInAnActiveDirectory
+  parameters:
+    - name: directoryId
+      in: path
+      description: Directory Id
+      required: true
+      schema:
+        type: string
+    - name: attributes
+      in: query
+      description: >
+        Resource attributes to be included in response. Mutually exclusive with
+        `excludedAttributes`.  Example: `userName,emails.value`
+      required: false
+      schema:
+        type: string
+    - name: excludedAttributes
+      in: query
+      description: >
+        Resource attributes to be excluded from response. Mutually exclusive
+        with  `attributes`. Example: `timezone,emails.type,department`
+      required: false
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/ScimUser.yaml
+      application/scim+json:
+        schema:
+          $ref: ../components/schemas/ScimUser.yaml
+    description: User information. The `userName` parameter is required.
+    required: true
+  responses:
+    '201':
+      description: User has been created successfully.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ScimUser.yaml
+        application/scim+json:
+          schema:
+            $ref: ../components/schemas/ScimUser.yaml
+    '400':
+      description: Invalid payload for creation request.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+        application/scim+json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+    '401':
+      description: Missing authorization header.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/Failure.yaml
+        application/scim+json:
+          schema:
+            $ref: ../components/schemas/Failure.yaml
+    '403':
+      description: You are not authorized to call the API.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/Failure.yaml
+        application/scim+json:
+          schema:
+            $ref: ../components/schemas/Failure.yaml
+    '404':
+      description: Directory does not exist.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+        application/scim+json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+    '409':
+      description: User already exists.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+        application/scim+json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+    '500':
+      description: Internal error. You can retry calls.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+        application/scim+json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+    '503':
+      description: Service unavailable. You can retry calls.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml
+        application/scim+json:
+          schema:
+            $ref: ../components/schemas/ScimError.yaml

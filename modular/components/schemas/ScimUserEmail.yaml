@@ -1,0 +1,13 @@
+type: object
+title: Scim user email
+properties:
+  value:
+    type: string
+    description: Email address.
+  type:
+    type: string
+    description: Type of email address, for example "work" or "personal".
+  primary:
+    type: boolean
+    description: Boolean value indicating whether this is the primary email address.
+description: SCIM user email

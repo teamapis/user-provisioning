@@ -1,0 +1,33 @@
+type: object
+properties:
+  schemas:
+    type: array
+    description: SCIM error schemas.
+    readOnly: true
+    uniqueItems: true
+    items:
+      type: string
+  status:
+    type: string
+    description: The HTTP status code.
+    readOnly: true
+  scimType:
+    type: string
+    description: Keyword for SCIM detail error.
+    readOnly: true
+    enum:
+      - invalidFilter
+      - tooMany
+      - uniqueness
+      - mutability
+      - invalidSyntax
+      - invalidPath
+      - noTarget
+      - invalidValue
+      - invalidVers
+      - sensitive
+  detail:
+    type: string
+    description: Detailed human-readable message.
+    readOnly: true
+description: SCIM Error
